@@ -4,6 +4,7 @@ import SetTelescope from './components/SetTelescope';
 import ManualControl from './components/ManualControl';
 import LogInformation from './components/LogInformation';
 import AutoControl from './components/AutoControl';
+import Sphere from './components/celestialSphere/Sphere';
 
 function App() {
   return (
@@ -32,8 +33,8 @@ function App() {
             <AutoControl />
             <LogInformation />
           </div>
+          <Sphere />
         </S.Box>
-
         <S.RowLine />
       </div>
     </div>
