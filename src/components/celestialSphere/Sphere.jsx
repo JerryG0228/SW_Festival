@@ -20,7 +20,7 @@ export default function Sphere() {
 
       // const svg = d3.select(d3Container.current);
       let starPath = null;
-      var width = 650; // window.innerWidth;
+      var width = 850; // window.innerWidth;
       var projection = d3.geoOrthographic();
       var sphere = { type: 'Sphere' };
 
@@ -37,7 +37,7 @@ export default function Sphere() {
       };
       height = height(width); // made it as number
 
-      var canvas = d3.select('body').append('canvas').attr('width', width).attr('height', height);
+      var canvas = d3.select(d3Container.current).append('canvas').attr('width', width).attr('height', height);
 
       var context = canvas.node().getContext('2d');
 
@@ -362,8 +362,13 @@ export default function Sphere() {
           );
         }
       });
+      return () => {
+        if (canvas) {
+          canvas.remove();
+        }
+      };
     }
-  }, []);
+  }, []); // Ensure effect only runs once
 
-  return <svg className='d3-component' width={400} height={200} ref={d3Container} />;
+  return <div ref={d3Container} className='d3-component' />;
 }

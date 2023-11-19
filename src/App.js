@@ -33,7 +33,9 @@ function App() {
             <AutoControl />
             <LogInformation />
           </div>
-          <Sphere />
+          <div style={{ marginLeft: '150px', marginTop: '20px' }}>
+            <Sphere />
+          </div>
         </S.Box>
         <S.RowLine />
       </div>
