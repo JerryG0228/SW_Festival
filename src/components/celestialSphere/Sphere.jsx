@@ -169,11 +169,13 @@ export default function Sphere() {
           });
       }
 
+      // 별자리 그리기
       var urlA = 'https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/constellations.lines.json';
       d3.json(urlA).then(function (d) {
         ctLines = d;
       });
 
+      // 별 그리기
       var urlB = 'https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/stars.8.json';
       d3.json(urlB).then(function (data) {
         stars = data;

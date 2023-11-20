@@ -4,7 +4,7 @@ import SetTelescope from './components/SetTelescope';
 import ManualControl from './components/ManualControl';
 import LogInformation from './components/LogInformation';
 import AutoControl from './components/AutoControl';
-import Sphere from './components/celestialSphere/Sphere';
+import CelestialComponent from './components/celestialSphere2/chinese';
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
             <LogInformation />
           </div>
           <div style={{ marginLeft: '150px', marginTop: '20px' }}>
-            <Sphere />
+            <CelestialComponent />
           </div>
         </S.Box>
         <S.RowLine />
