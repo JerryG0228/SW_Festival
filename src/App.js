@@ -5,7 +5,6 @@ import ManualControl from './components/ManualControl';
 import LogInformation from './components/LogInformation';
 import AutoControl from './components/AutoControl';
 import CelestialComponent from './components/celestialSphere2/chinese';
-import * as d3 from 'd3';
 
 function App() {
   return (
