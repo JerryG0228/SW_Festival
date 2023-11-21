@@ -47,6 +47,23 @@ const CelestialComponent = () => {
             let coordint = d.features[i].geometry.coordinates;
             setX(coordint[0]);
             setY(coordint[1]);
+            fetch('http://127.0.0.1:5000/AutoControl', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+              body: JSON.stringify(coordint),
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                // 서버로부터 받은 응답 처리
+                console.log(coordint);
+              })
+              .catch((error) => {
+                // 에러 처리
+                console.error('Error:', error);
+              });
           }
         } else {
           console.log('Undefined or missing property at index', i);
