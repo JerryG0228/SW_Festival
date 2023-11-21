@@ -6,6 +6,11 @@ export default function ManualControl() {
     // 입력한 값 가져오기
     const Latitude = document.getElementById('Latitude').value;
     const Azimuth = document.getElementById('Azimuth').value;
+
+    //로컬저장소에 저장
+    localStorage.setItem('Latitude', Latitude);
+    localStorage.setItem('Azimuth', Azimuth);
+
     // 서버로 보낼 데이터 객체 생성
     const data = {
       Latitude: Latitude,

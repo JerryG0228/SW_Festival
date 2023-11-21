@@ -24,6 +24,22 @@ const CelestialComponent = () => {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
+      const newLatitude = localStorage.getItem('Latitude');
+      const newAzimuth = localStorage.getItem('Azimuth');
+
+      if (newLatitude !== x.toString() || newAzimuth !== y.toString()) {
+        setX(Number(newLatitude));
+        setY(Number(newAzimuth));
+      }
+    }, 1000); // 매 초마다 latitude, azimuth 체크
+
+    return () => {
+      clearInterval(intervalId); // 컴포넌트 unmount 시에 interval 해제
+    };
+  }, [x, y]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
       const newStarname = localStorage.getItem('starname');
       if (newStarname !== starname) {
         setStarname(newStarname);
