@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import * as d3 from 'd3';
+import React, { useEffect, useState } from 'react';
 
 // D3와 Celestial 관련 스크립트 파일들은 public 폴더에 넣고 아래와 같이 static 경로로 접근합니다.
 const D3_SCRIPT = '/static/d3.min.js';
@@ -17,6 +18,43 @@ const loadScript = (src) => {
 };
 
 const CelestialComponent = () => {
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+  const [starname, setStarname] = useState(localStorage.getItem('starname') || '');
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const newStarname = localStorage.getItem('starname');
+      if (newStarname !== starname) {
+        setStarname(newStarname);
+      }
+    }, 1000); // 매 초마다 starname 체크
+
+    return () => {
+      clearInterval(intervalId); // 컴포넌트 unmount 시에 interval 해제
+    };
+  }, [starname]);
+
+  useEffect(() => {
+    var urlA = 'https://raw.githubusercontent.com/ofrohn/d3-celestial/master/data/constellations.json';
+    d3.json(urlA).then(function (d) {
+      for (let i = 0; i < 90; i++) {
+        if (d.features[i] && d.features[i].properties && d.features[i].properties.ko) {
+          let name = d.features[i].properties.ko;
+          console.log(d.features[i].properties.ko);
+          if (name === starname) {
+            console.log(d.features[i].geometry.coordinates); // 고물자리의 좌표 설정
+            let coordint = d.features[i].geometry.coordinates;
+            setX(coordint[0]);
+            setY(coordint[1]);
+          }
+        } else {
+          console.log('Undefined or missing property at index', i);
+        }
+      }
+    });
+  }, [starname]); // 종속성 배열이 비어 있음
+
   useEffect(() => {
     const loadAllScripts = async () => {
       await loadScript(D3_SCRIPT);
@@ -24,11 +62,11 @@ const CelestialComponent = () => {
       await loadScript(CELESTIAL_SCRIPT);
 
       const config = {
-        width: 700,
+        width: 850,
         projection: 'airy',
-        center: [-120, 31],
+        center: [x, y], //안드로메다 자리 0.92, 44.72
         form: true,
-        background: { fill: '#333', stroke: '#b3b300', opacity: 1, width: 4 },
+        background: { fill: '#333', stroke: 'white', opacity: 1, width: 1 },
         formFields: {
           location: false,
           general: false,
@@ -38,13 +76,13 @@ const CelestialComponent = () => {
           lines: false,
           other: true,
         },
-        culture: 'cn',
+        culture: 'ko', // en으로 수정_sja
         container: 'celestial-map',
         datapath: 'https://ofrohn.github.io/data/',
         constellations: {
           show: true, //Show constellations
           names: true, //Show constellation names
-          namesType: 'cn',
+          namesType: 'ko', //en으로 수정_ sja
           nameStyle: {
             fill: ['#fec', '#f6c', '#fec'],
             opacity: 0.9,
@@ -96,10 +134,11 @@ const CelestialComponent = () => {
     };
 
     loadAllScripts();
-  }, []);
+  }, [x, y]);
 
   return (
-    <div>
+    //  marginLeft: '100px'으로 celestial 전체 위치 이동_ sja
+    <div style={{ marginLeft: '70px' }}>
       <div style={{ overflow: 'hidden' }}>
         <div id='celestial-map'></div>
       </div>

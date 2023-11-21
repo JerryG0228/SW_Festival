@@ -2,14 +2,52 @@ import React from 'react';
 import * as S from './ComponentStyled';
 
 export default function SetTelescope() {
+  const connect_to_telescope = async () => {
+    try {
+      await fetch('http://127.0.0.1:5000/connect_to_telescope', {
+        method: 'GET',
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          // 서버로부터 받은 응답 처리
+          let l = document.getElementById('L_Value');
+          let a = document.getElementById('A_Value');
+          l.innerText = 'L:' + result['current_latitude'] + 'dec';
+          a.innerText = 'A:' + result['current_azimuth'] + 'dec';
+          console.log(result['current_angle']);
+        });
+    } catch (error) {
+      console.error('Error calling Flask API:', error);
+    }
+  };
+
+  const disconnect_to_telescope = async () => {
+    try {
+      await fetch('http://127.0.0.1:5000/disconnect_to_telescope', {
+        method: 'GET',
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          // 서버로부터 받은 응답 처리
+          let l = document.getElementById('L_Value');
+          let a = document.getElementById('A_Value');
+          l.innerText = 'L:' + result['current_latitude'] + 'dec';
+          a.innerText = 'A:' + result['current_azimuth'] + 'dec';
+          console.log(result['current_angle']);
+        });
+    } catch (error) {
+      console.error('Error calling Flask API:', error);
+    }
+  };
+
   return (
     <div style={{ marginBottom: '10px' }}>
       <S.Title>Set Telescope</S.Title>
 
       <div style={{ display: 'flex', marginTop: '15px' }}>
         <S.Container>
-          <S.ContainerItem>connect</S.ContainerItem>
-          <S.ContainerItem>disconnect</S.ContainerItem>
+          <S.ContainerItem onClick={connect_to_telescope}>connect</S.ContainerItem>
+          <S.ContainerItem onClick={disconnect_to_telescope}>disconnect</S.ContainerItem>
           <S.ContainerItem>park</S.ContainerItem>
           <S.ContainerItem style={{ color: 'white', backgroundColor: '#fa4040' }}>abort</S.ContainerItem>
         </S.Container>
@@ -23,9 +61,9 @@ export default function SetTelescope() {
             <S.GeneralText>
               Current Coordinate:
               <br />
-              L: 302 dec
+              <a id='L_Value'>L: 302 dec</a>
               <br />
-              A: 123 dec
+              <a id='A_Value'>L: 302 dec</a>
             </S.GeneralText>
           </div>
         </div>
